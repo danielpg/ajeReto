@@ -1,0 +1,129 @@
+service: glue-serverless-project
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: us-east-1
+  stage: dev
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - glue:StartJobRun
+            - glue:GetJobRun
+            - glue:GetJobRuns
+            - glue:BatchStopJobRun
+            - s3:PutObject
+            - s3:GetObject
+            - s3:ListBucket            
+          Resource: "*"
+
+functions:
+  startGlueJob:
+    handler: handler.start
+    environment:
+      GLUE_JOB_NAME: glue_etl_job
+    events:
+      - httpApi:
+          path: /start
+          method: post
+
+resources:
+  Resources:
+    GlueScriptBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: !Sub "${AWS::StackName}-glue-script-bucket"
+    InputDataBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: !Sub "${AWS::StackName}-input-data-bucket"
+    GlueJobRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: !Sub "${AWS::StackName}-glue-job-role"
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service: glue.amazonaws.com
+              Action: sts:AssumeRole
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole
+        Policies:
+          - PolicyName: GlueJobPolicy
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - s3:GetObject
+                    - s3:PutObject
+                    - s3:DeleteObject
+                  Resource: 
+                    - !Sub "${GlueScriptBucket.Arn}/*"
+                    - !Sub "${InputDataBucket.Arn}/*"
+                - Effect: Allow
+                  Action:
+                    - s3:ListBucket
+                  Resource: 
+                    - !GetAtt GlueScriptBucket.Arn
+                    - !GetAtt InputDataBucket.Arn
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource: "*"
+    GlueETLJob:
+      Type: AWS::Glue::Job
+      Properties:
+        Name: glue_etl_job
+        Role: !GetAtt GlueJobRole.Arn
+        MaxCapacity: 1
+        GlueVersion: "3.0"
+        Command:
+          Name: glueetl
+          PythonVersion: "3"
+          ScriptLocation: !Sub "s3://${GlueScriptBucket}/glue-job-script.py"
+        DefaultArguments:
+          "--job-language": "python"
+          "--enable-continuous-cloudwatch-log": "true"
+          "--enable-metrics": "true"
+          "--input_path": !Sub "s3://${InputDataBucket}/clientes-data.csv"
+          "--output_path": !Sub "s3://${InputDataBucket}/output/"
+        MaxRetries: 0
+        Timeout: 60
+
+  Outputs:
+    GlueScriptBucketName:
+      Description: "S3 Bucket for Glue Scripts"
+      Value: !Ref GlueScriptBucket
+      Export:
+        Name: !Sub "${AWS::StackName}-GlueScriptBucket"
+    InputDataBucketName:
+      Description: "S3 Bucket for Input Data"
+      Value: !Ref InputDataBucket
+      Export:
+        Name: !Sub "${AWS::StackName}-InputDataBucket"
+    GlueJobName:
+      Description: "Glue ETL Job Name"
+      Value: !Ref GlueETLJob
+      Export:
+        Name: !Sub "${AWS::StackName}-GlueJobName"
+
+plugins:
+  - serverless-plugin-scripts
+
+custom:
+  defaultStage: dev
+  glueScriptBucketName: "${self:service}-${self:provider.stage}-glue-script-bucket"
+  inputDataBucketName: "${self:service}-${self:provider.stage}-input-data-bucket"
+  scripts:
+    hooks:
+      after:deploy:deploy: |
+        echo "Uploading Glue job script and CSV data to S3..."
+        aws s3 cp glue-job-script.py s3://${self:custom.glueScriptBucketName}/
+        aws s3 cp clientes-data.csv s3://${self:custom.inputDataBucketName}/

@@ -1,0 +1,40 @@
+service: dp-java
+
+provider:
+  name: aws
+  runtime: java17
+  region: us-east-1  # change if needed
+
+package:
+  individually: true
+
+functions:
+  onClienteInsert:
+    handler: dp.alpha.App::handleRequest
+    package:
+      artifact: target/lambda-hello-3.0-SNAPSHOT.jar
+    events:
+      - stream:
+          type: dynamodb
+          arn:
+            Fn::GetAtt:
+              - ClientesTable
+              - StreamArn
+          batchSize: 5
+          startingPosition: TRIM_HORIZON
+
+resources:
+  Resources:
+    ClientesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: clientes
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE

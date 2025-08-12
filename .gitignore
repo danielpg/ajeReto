@@ -1,0 +1,25 @@
+node_modules/
+java.lambda/node_modules/
+glue.lambda/node_modules/
+webreact/node_modules/
+webreact/package-lock.json
+
+# Build outputs
+build/
+
+# Serverless Framework
+backend/.serverless/
+java.lambda/.serverless/
+glue.lambda/.serverless/
+webreact/.serverless/
+.serverless/
+
+# AWS credentials
+.aws/
+
+# Python bytecode
+*.pyc
+
+# VS Code settings folder
+.vscode/
+

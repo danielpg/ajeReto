@@ -1,0 +1,24 @@
+{
+  "clientes": [
+    {"PutRequest": {"Item": {"id": {"S": "1"}, "nombre": {"S": "Ana Pérez"}, "email": {"S": "ana.perez@example.com"}, "estado": {"S": "activo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "2"}, "nombre": {"S": "Carlos Gómez"}, "email": {"S": "carlos.gomez@example.com"}, "estado": {"S": "inactivo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "3"}, "nombre": {"S": "María López"}, "email": {"S": "maria.lopez@example.com"}, "estado": {"S": "activo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "4"}, "nombre": {"S": "Juan Martínez"}, "email": {"S": "juan.martinez@example.com"}, "estado": {"S": "activo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "5"}, "nombre": {"S": "Laura Sánchez"}, "email": {"S": "laura.sanchez@example.com"}, "estado": {"S": "inactivo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "6"}, "nombre": {"S": "Miguel Torres"}, "email": {"S": "miguel.torres@example.com"}, "estado": {"S": "activo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "7"}, "nombre": {"S": "Lucía Fernández"}, "email": {"S": "lucia.fernandez@example.com"}, "estado": {"S": "activo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "8"}, "nombre": {"S": "Diego Ramírez"}, "email": {"S": "diego.ramirez@example.com"}, "estado": {"S": "inactivo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "9"}, "nombre": {"S": "Sofía Díaz"}, "email": {"S": "sofia.diaz@example.com"}, "estado": {"S": "activo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "10"}, "nombre": {"S": "Ricardo Morales"}, "email": {"S": "ricardo.morales@example.com"}, "estado": {"S": "activo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "11"}, "nombre": {"S": "Patricia Herrera"}, "email": {"S": "patricia.herrera@example.com"}, "estado": {"S": "inactivo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "12"}, "nombre": {"S": "José Castillo"}, "email": {"S": "jose.castillo@example.com"}, "estado": {"S": "activo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "13"}, "nombre": {"S": "Verónica Reyes"}, "email": {"S": "veronica.reyes@example.com"}, "estado": {"S": "activo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "14"}, "nombre": {"S": "Fernando Cruz"}, "email": {"S": "fernando.cruz@example.com"}, "estado": {"S": "inactivo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "15"}, "nombre": {"S": "Clara Vargas"}, "email": {"S": "clara.vargas@example.com"}, "estado": {"S": "activo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "16"}, "nombre": {"S": "Ramón Ortega"}, "email": {"S": "ramon.ortega@example.com"}, "estado": {"S": "activo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "17"}, "nombre": {"S": "Isabel Navarro"}, "email": {"S": "isabel.navarro@example.com"}, "estado": {"S": "inactivo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "18"}, "nombre": {"S": "Javier Castillo"}, "email": {"S": "javier.castillo@example.com"}, "estado": {"S": "activo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "19"}, "nombre": {"S": "Alejandra Mendoza"}, "email": {"S": "alejandra.mendoza@example.com"}, "estado": {"S": "activo"}}}},
+    {"PutRequest": {"Item": {"id": {"S": "20"}, "nombre": {"S": "David Soto"}, "email": {"S": "david.soto@example.com"}, "estado": {"S": "inactivo"}}}}
+  ]
+}
