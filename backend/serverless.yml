@@ -17,6 +17,7 @@ functions:
       - httpApi:
           path: /clientes
           method: get
+          cors: true
 
 outputs:
   HttpApiUrl:

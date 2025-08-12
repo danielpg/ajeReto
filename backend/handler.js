@@ -13,7 +13,9 @@ exports.getAllClientes = async () => {
 
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Access-Control-Allow-Origin": "*", // or your specific origin
+        "Content-Type": "application/json" },
       body: JSON.stringify(data.Items),
     };
   } catch (error) {
