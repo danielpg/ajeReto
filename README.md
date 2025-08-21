@@ -11,7 +11,7 @@ Carpeta continene el proyecto para crear el Lambda de Java y creacion de la tabl
 
 ## webReact
 
-El frontend de React con S3 + CloudFront  VISIT REPO (https://github.com/danielpg/webreact)
+El frontend de React con S3 + CloudFront  
 
 ## backend
 
